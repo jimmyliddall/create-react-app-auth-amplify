@@ -58,10 +58,15 @@ class App extends Component {
         //logger.debug('A new auth event has happened: ' + data.payload.data.username + ' has ' + data.payload.event);
     }, 'ListenerMethod2-Constructor');
     Hub.listen('auth', this, 'ListenerMethod3-OnHubCapsule');
+    Hub.listen('auth', this.customMethod, 'ListenerMethod5-CustomCallback')
   }
 
   onHubCapsule(capsule) {
     logger.info('onHubCapsule, on Auth event', capsule);
+  }
+
+  customMethod(capsule) {
+    logger.info('customCallback', capsule)
   }
 
   // define vars in state (could be done in props constructor)
@@ -176,7 +181,7 @@ class App extends Component {
             </div>
           ) : null
         }
-        <button onClick={checkUser}>Check User</button>
+        <button onClick={this.checkUser}>Check User</button>
       </div>
     );
   }
