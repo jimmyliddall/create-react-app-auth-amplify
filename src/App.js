@@ -27,10 +27,10 @@ class App extends Component {
     this.signOut = this.signOut.bind(this);
     Hub.listen('auth', (data) => {
         logger.debug('Data', data)
-        const { payload } = data;
-        logger.debug('A new auth event has happened: ' + data.payload.data.username + ' has ' + data.payload.event);
-        this.onAuthEvent(payload);           
-        logger.debug('A new auth event has happened: ' + data.payload.data.username + ' has ' + data.payload.event);
+        //const { payload } = data;
+        //logger.debug('A new auth event has happened: ' + data.payload.data.username + ' has ' + data.payload.event);
+        //this.onAuthEvent(payload);           
+        //logger.debug('A new auth event has happened: ' + data.payload.data.username + ' has ' + data.payload.event);
     });
     
   }
