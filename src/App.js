@@ -26,6 +26,11 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.signOut = this.signOut.bind(this);
+    Hub.listen('auth', (data) => {
+        const { payload } = data;
+        this.onAuthEvent(payload);           
+        console.log('A new auth event has happened: ', data.payload.data.username + ' has ' + data.payload.event);
+    })
   }
 
   // define vars in state (could be done in props constructor)
@@ -57,14 +62,8 @@ class App extends Component {
     this.setState({ user_email: user_email });
   }
 
-  // ====================================================
-  // componentDidMount(): react core function
-  // is invoked immediately after a component is mounted
-  // https://reactjs.org/docs/react-component.html
-  componentDidMount() {
-    // Setup a hub listenr on the auth events
-    // https://aws-amplify.github.io/docs/js/hub
-    Hub.listen("auth", ({ payload: { event, data } }) => {
+  onAuthEvent(payload) {
+      event = payload.payload.event
       logger.debug(event)
       switch (event) {
         case "signIn":
@@ -76,7 +75,6 @@ class App extends Component {
           this.setState({ user: null });
           break;
       }
-    }, 'LoginListener');
   }
 
   // ====================================================
