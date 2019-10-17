@@ -20,7 +20,7 @@ Auth.configure({ oauth });
 
 const logger = new Logger('AppLog','DEBUG');
 
-const listener = (data) => {
+/* const listener = (data) => {
   logger.error('auth event', data)
   switch (data.payload.event) {
   
@@ -42,32 +42,33 @@ const listener = (data) => {
   }
 }
 
-Hub.listen('auth', listener, 'ListenerMethod1-Static');
+Hub.listen('auth', listener, 'ListenerMethod1-Static'); */
 
 class App extends Component {
   // setup props
   constructor(props) {
     super(props);
     this.signOut = this.signOut.bind(this);
-    Hub.listen('auth', data => {
+    /* Hub.listen('auth', data => {
         const {payload} = data
         logger.debug('Data', payload)
         //const { payload } = data;
         //logger.debug('A new auth event has happened: ' + data.payload.data.username + ' has ' + data.payload.event);
         //this.onAuthEvent(payload);           
         //logger.debug('A new auth event has happened: ' + data.payload.data.username + ' has ' + data.payload.event);
-    }, 'ListenerMethod2-Constructor');
+    }, 'ListenerMethod2-Constructor'); */
     Hub.listen('auth', this, 'ListenerMethod3-OnHubCapsule');
-    Hub.listen('auth', this.customMethod, 'ListenerMethod5-CustomCallback')
+    //Hub.listen('auth', this.customMethod, 'ListenerMethod5-CustomCallback')
   }
 
   onHubCapsule(capsule) {
-    logger.info('onHubCapsule, on Auth event', capsule);
+    logger.debug('A new auth event has happened: ' + data.payload.data.username + ' has ' + data.payload.event);
+    this.onAuthEvent(capsule)
   }
 
-  customMethod(capsule) {
-    logger.info('customCallback', capsule)
-  }
+  // customMethod(capsule) {
+  //   logger.info('customCallback', capsule)
+  // }
 
   // define vars in state (could be done in props constructor)
   state = {
@@ -113,7 +114,7 @@ class App extends Component {
       }
   }
 
-  componentDidMount() {
+  /* componentDidMount() {
     // Setup a hub listenr on the auth events
     // https://aws-amplify.github.io/docs/js/hub
     Hub.listen("auth", ({ payload: { event, data } }) => {
@@ -128,13 +129,18 @@ class App extends Component {
           break;
       }
     }, 'ListenerMethod4-componentDidMount');
-  }
+  } */
 
-  checkUser() {
+  /* checkUser() {
     Auth.currentAuthenticatedUser()
       .then(user => logger.debug({ user }))
       .catch(err => logger.debug(err))
-  }
+
+
+      called by
+
+      <button onClick={this.checkUser}>Check User</button>
+  } */
   // ====================================================
   // signOut() : used to sign out user
   // custom sign out function; has been bound in constructor(props) as well
@@ -181,7 +187,7 @@ class App extends Component {
             </div>
           ) : null
         }
-        <button onClick={this.checkUser}>Check User</button>
+        
       </div>
     );
   }
