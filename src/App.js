@@ -42,21 +42,26 @@ const listener = (data) => {
   }
 }
 
-Hub.listen('auth', listener, 'genericListener');
+Hub.listen('auth', listener, 'ListenerMethod1-Static');
 
 class App extends Component {
   // setup props
   constructor(props) {
     super(props);
     this.signOut = this.signOut.bind(this);
-    Hub.listen('auth', (data) => {
-        logger.debug('Data', data)
+    Hub.listen('auth', data => {
+        const {payload} = data
+        logger.debug('Data', payload)
         //const { payload } = data;
         //logger.debug('A new auth event has happened: ' + data.payload.data.username + ' has ' + data.payload.event);
         //this.onAuthEvent(payload);           
         //logger.debug('A new auth event has happened: ' + data.payload.data.username + ' has ' + data.payload.event);
-    });
-    
+    }, 'ListenerMethod2-Constructor');
+    Hub.listen('auth', this, 'ListenerMethod3-OnHubCapsule');
+  }
+
+  onHubCapsule(capsule) {
+    logger.info('onHubCapsule, on Auth event', capsule);
   }
 
   // define vars in state (could be done in props constructor)
@@ -117,9 +122,14 @@ class App extends Component {
           this.setState({ user: null });
           break;
       }
-    }, 'otherEvent');
+    }, 'ListenerMethod4-componentDidMount');
   }
 
+  checkUser() {
+    Auth.currentAuthenticatedUser()
+      .then(user => logger.debug({ user }))
+      .catch(err => logger.debug(err))
+  }
   // ====================================================
   // signOut() : used to sign out user
   // custom sign out function; has been bound in constructor(props) as well
@@ -166,6 +176,7 @@ class App extends Component {
             </div>
           ) : null
         }
+        <button onClick={checkUser}>Check User</button>
       </div>
     );
   }
