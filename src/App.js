@@ -12,14 +12,14 @@ const oauth = {
   scope: [ 'email', 'openid', 'aws.cognito.signin.user.admin'],
   redirectSignIn: 'https://master.d1gwqjtzihrsal.amplifyapp.com/',
   redirectSignOut: 'https://master.d1gwqjtzihrsal.amplifyapp.com/',
-  responseType: 'code', // or 'token', note that REFRESH token will only be generated when the responseType is code
+  responseType: 'token', // or 'token', note that REFRESH token will only be generated when the responseType is code
   client_id: '5ase063lspk3ut1j76n72r0ri2'
 };
 
 Amplify.configure(awsconfig);
 Auth.configure({ oauth });
 
-const logger = new Logger('AppLog','INFO');
+const logger = new Logger('AppLog','DEBUG');
 
 class App extends Component {
   // setup props
