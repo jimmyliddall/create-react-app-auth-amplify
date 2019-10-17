@@ -65,6 +65,7 @@ class App extends Component {
     // Setup a hub listenr on the auth events
     // https://aws-amplify.github.io/docs/js/hub
     Hub.listen("auth", ({ payload: { event, data } }) => {
+      logger.debug(event)
       switch (event) {
         case "signIn":
           this.setState({ authState: 'signedIn'});
@@ -75,7 +76,7 @@ class App extends Component {
           this.setState({ user: null });
           break;
       }
-    });
+    }), 'LoginListener';
   }
 
   // ====================================================
