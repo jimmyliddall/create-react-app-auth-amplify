@@ -61,9 +61,9 @@ class App extends Component {
     //Hub.listen('auth', this.customMethod, 'ListenerMethod5-CustomCallback')
   }
 
-  onHubCapsule(capsule) {
+  onHubCapsule(data) {
     logger.debug('A new auth event has happened: ' + data.payload.data.username + ' has ' + data.payload.event);
-    this.onAuthEvent(capsule)
+    this.onAuthEvent(data)
   }
 
   // customMethod(capsule) {
