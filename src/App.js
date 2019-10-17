@@ -28,6 +28,7 @@ class App extends Component {
     this.signOut = this.signOut.bind(this);
     Hub.listen('auth', (data) => {
         const { payload } = data;
+        console.log('A new auth event has happened: ', data.payload.data.username + ' has ' + data.payload.event);
         this.onAuthEvent(payload);           
         console.log('A new auth event has happened: ', data.payload.data.username + ' has ' + data.payload.event);
     })
