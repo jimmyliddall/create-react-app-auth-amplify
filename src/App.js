@@ -79,6 +79,23 @@ class App extends Component {
       }
   }
 
+  componentDidMount() {
+    // Setup a hub listenr on the auth events
+    // https://aws-amplify.github.io/docs/js/hub
+    Hub.listen("auth", ({ payload: { event, data } }) => {
+      switch (event) {
+        case "signIn":
+          this.setState({ authState: 'signedIn'});
+          this.getuserinfo();
+          break;
+        case "signOut":
+          this.setState({ authState: 'signIn'});
+          this.setState({ user: null });
+          break;
+      }
+    }, 'otherEvent');
+  }
+
   // ====================================================
   // signOut() : used to sign out user
   // custom sign out function; has been bound in constructor(props) as well
