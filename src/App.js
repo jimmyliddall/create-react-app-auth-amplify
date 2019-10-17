@@ -63,9 +63,9 @@ class App extends Component {
   }
 
   onAuthEvent(payload) {
-      event = payload.payload.event
-      logger.debug(event)
-      switch (event) {
+      const event2 = payload.payload.event
+      logger.debug(event2)
+      switch (event2) {
         case "signIn":
           this.setState({ authState: 'signedIn'});
           this.getuserinfo();
