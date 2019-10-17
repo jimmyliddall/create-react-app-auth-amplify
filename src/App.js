@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import OAuthButton from './OAuthButton';
 import { withAuthenticator } from 'aws-amplify-react'
-import { I18n, ConsoleLogger as Logger } from '@aws-amplify/core';
-import Amplify, { Auth, Hub } from 'aws-amplify';
+import Amplify, { Auth, Hub, Logger } from 'aws-amplify';
 import awsconfig from './aws-exports'; // your Amplify configuration
 
 // your Cognito Hosted UI configuration
@@ -28,9 +27,9 @@ class App extends Component {
     this.signOut = this.signOut.bind(this);
     Hub.listen('auth', (data) => {
         const { payload } = data;
-        console.log('A new auth event has happened: ', data.payload.data.username + ' has ' + data.payload.event);
+        logger.debug('A new auth event has happened: ' + data.payload.data.username + ' has ' + data.payload.event);
         this.onAuthEvent(payload);           
-        console.log('A new auth event has happened: ', data.payload.data.username + ' has ' + data.payload.event);
+        logger.debug('A new auth event has happened: ' + data.payload.data.username + ' has ' + data.payload.event);
     })
   }
 
@@ -64,7 +63,7 @@ class App extends Component {
   }
 
   onAuthEvent(payload) {
-      const event2 = payload.payload.event
+      const { event2 } = payload.payload.event
       logger.debug(event2)
       switch (event2) {
         case "signIn":
@@ -100,6 +99,8 @@ class App extends Component {
     const { token } = this.state;
     const { user_givenname } = this.state;
     const { user_email } = this.state;
+
+    logger.debug('AuthState: ' + authState)
 
     // main return routine
     return (
